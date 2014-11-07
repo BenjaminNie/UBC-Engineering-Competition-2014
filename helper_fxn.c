@@ -39,6 +39,76 @@ task waitMSec_D()
 
 
 
+//
+// MOVEMENT USING MOTOR
+//
+/*
+* Move forward for forwardTime seconds
+*/
+void forward(int forwardTime)
+{
+  motor[rightMotor] = 75;
+  motor[leftMotor]  = 75;
+  wait1Msec(forwardTime);
+
+  motor[rightMotor] = 0;
+  motor[leftMotor]  = 0;
+  wait1Msec(1000);
+}
+
+/*
+* Move backward for backwardTime seconds
+*/
+void backward(int backwardTime)
+{
+  motor[rightMotor] = -75;
+  motor[leftMotor]  = -75;
+  wait1Msec(backwardTime);
+
+  motor[rightMotor] = 0;
+  motor[leftMotor]  = 0;
+  wait1Msec(1000);
+}
+
+/*
+* turn right for rightTurnTime seconds
+*/
+void rightTurn(int rightTurnTime)
+{
+  motor[rightMotor] = -75;
+  motor[leftMotor]  = 75;
+  wait1Msec(rightTurnTime);
+
+  motor[rightMotor] = 0;
+  motor[leftMotor]  = 0;
+  wait1Msec(1000);
+}
+
+/*
+* turn left for leftTurnTime seconds
+*/
+void leftTurn(int leftTurnTime)
+{
+  motor[rightMotor] = 75;
+  motor[leftMotor]  = -75;
+  wait1Msec(leftTurnTime);
+
+  motor[rightMotor] = 0;
+  motor[leftMotor]  = 0;
+  wait1Msec(1000);
+}
+
+task main()
+{
+  forward(1000);   //change the value of 1000 to change how long the
+  backward(1000);  //robot moves forward, backward, or turns
+  rightTurn(1000);
+  leftTurn(1000);
+}
+
+
+
+
 
 
 
