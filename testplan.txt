@@ -1,0 +1,20 @@
+Work Plan:
+
+1. Get Windows8 RobotC firmware installed
+http://www.robotc.net/download/vexrobotics/
+
+2. Set up COM connection
+http://www.robotc.net/wiki/Tutorials/Getting_Started/Getting_Started_with_the_VEX_CORTEX
+
+3. test task_main()
+
+4. test helper_fxn() 
+	- include
+	
+5. test motors
+
+6. test line sensor
+
+7. test sonar sensor
+
+8. test 
