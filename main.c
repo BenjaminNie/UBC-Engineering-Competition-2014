@@ -14,6 +14,7 @@ void turnLeft(int speed);
 void turnRight(int speed);
 void moveForward(int speed);
 void moveBackward(int speed);
+void stopMotor();
 
 task main()
 {
@@ -65,10 +66,25 @@ task main()
 			  break;
 
 
-			  //case 1 tests line following
+			  //state 1: line following from start to T junction
 			  case (1):
 			  lineTracker();
 			  break;
+
+	  		// state 2: turn right
+	  		case (2):
+	  		lineTracker();
+	  		break;
+
+	  		// state 3: line following from T junction 1 to T junction 2
+	  		case (3):
+	  		lineTracker();
+	  		break;
+
+	  		// state 4: grab blue object and come back
+	  	  case (4):
+	  	  lineTracker();
+	  	  break;
 	  	}
 	 }
 }
@@ -90,6 +106,16 @@ void lineTracker()
     rightLineSensor = SensorValue(lineTrackerRight);
     centerLineSensor = SensorValue(lineTrackerCenter);
 
+    if ( ((leftLineSensor > threshold) && (centerLineSensor > threshold)) ||\
+    		 ((rightLineSensor > threshold) && (centerLineSensor > threshold)) ||\
+    	   ((rightLineSensor > threshold) && (centerLineSensor > threshold) && (leftLineSensor > threshold)) ||\
+    	   ((rightLineSensor > threshold) && (leftLineSensor > threshold)) )
+    {
+       stopMotor();
+       wait1Msec(3000);
+       return;
+    }
+
     //If the center sensor sees dark...
     if (SensorValue(lineTrackerCenter) > threshold) {
     	 moveForward(motorMEDIUM);
@@ -99,9 +125,20 @@ void lineTracker()
   	else if(SensorValue(lineTrackerLeft) > threshold) {
 			 while (SensorValue(lineTrackerCenter) < threshold) {
   		    turnLeft(motorFAST);
-    	    wait1Msec(60);
+    	    wait1Msec(15);
      	    moveForward(motorMEDIUM);
      	    wait1Msec(5);
+
+    if ( ((leftLineSensor > threshold) && (centerLineSensor > threshold)) ||\
+    		 ((rightLineSensor > threshold) && (centerLineSensor > threshold)) ||\
+    	   ((rightLineSensor > threshold) && (centerLineSensor > threshold) && (leftLineSensor > threshold)) ||\
+    	   ((rightLineSensor > threshold) && (leftLineSensor > threshold)) )
+    {
+       stopMotor();
+       wait1Msec(3000);
+       return;
+    }
+
        }
     }
 
@@ -109,9 +146,20 @@ void lineTracker()
     else if(SensorValue(lineTrackerRight) > threshold) {
        while (SensorValue(lineTrackerCenter) < threshold) {
     	 	  turnRight(motorFAST);
-     	    wait1Msec(60);
+     	    wait1Msec(15);
      	    moveForward(motorMEDIUM);
      	    wait1Msec(5);
+
+    if ( ((leftLineSensor > threshold) && (centerLineSensor > threshold)) ||\
+    		 ((rightLineSensor > threshold) && (centerLineSensor > threshold)) ||\
+    	   ((rightLineSensor > threshold) && (centerLineSensor > threshold) && (leftLineSensor > threshold)) ||\
+    	   ((rightLineSensor > threshold) && (leftLineSensor > threshold)) )
+    {
+       stopMotor();
+       wait1Msec(3000);
+       return;
+    }
+
        }
     }
 
@@ -142,5 +190,11 @@ void turnLeft(int speed)
 void turnRight(int speed)
 {
 	 motor[leftMotor] = speed * -1;
+	 motor[rightMotor] = 0;
+}
+
+void stopMotor()
+{
+	 motor[leftMotor] = 0;
 	 motor[rightMotor] = 0;
 }
