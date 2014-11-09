@@ -10,7 +10,7 @@
 
 #define motorFAST 100
 #define motorMEDIUM 60
-#define motorSLOW 50
+#define motorSLOW 40
 
 void lineTracker();
 void turnLeft(int speed);
@@ -20,6 +20,7 @@ void moveBackward(int speed);
 void stopMotor();
 void grabObject();
 void armClose();
+void armOpen();
 void turnRightJunctionOne();
 void turnLeftJunctionTwo();
 void moveArmMotor(int time, int speed);
@@ -33,13 +34,16 @@ void turnLeftJunctionBack();
 
 task main()
 {
-	  int state = 5;
+	  int state = 40;
 
 	  //allow us to position robot down properly
 	  wait1Msec(2000);
 
 	  while(1) {
 			switch (state) {
+
+				case(0):
+				break;
 
 			  //state 1: line following from start to T junction
 			  case (1):
@@ -49,7 +53,7 @@ task main()
 
 	  		case (2):
 	  		moveBackward(motorMEDIUM);
-	  		wait1Msec(300);
+	  		wait1Msec(500);
 	  		turnRightJunctionOne();
 	  		state++;
 	  		break;
@@ -79,15 +83,20 @@ task main()
 
 	  	  case(6):
 	  	  moveBackward(80);
-	  	  wait1Msec(100);
+	  	  wait1Msec(300);
 	  	  grabObject();
-	  	  state = 70;
+	  	  state = 69;
 	  	  break;
 
 
 
 
 	  	  //traveling backwards
+
+	  	  case (69):
+	  	  lineBackTracker();
+	  	  state++;
+	  	  break;
 
 	  	  case(70):
 	  	  turnRightBackJunction();
@@ -147,6 +156,8 @@ task main()
 
 	  	  //place object down in box A
 	  	  case (45):
+	  	  armOpen();
+	  	  state=0;
 	  	  break;
 	  	}
 	 }
@@ -339,16 +350,19 @@ void stopMotor()
 
 void turnRightJunctionOne()
 {
-				//moveBackward(motorMEDIUM);
-	  		//wait1Msec(1000);
+				turnRight(110
+				);
+	  	  wait1Msec(1500);
 
-	  		while (SensorValue(lineTrackerRight) < 2500)
+	  		while (SensorValue(lineTrackerRight) < 2000)
 	  		{
-	  		//moveBackward(motorMEDIUM);
-	  			turnRightJunction(motorMEDIUM);
-	  			wait1Msec(500);
-     	    moveForward(motorMEDIUM);
-     	    wait1Msec(5);
+
+	  			//turnRight(motorMEDIUM);
+	  			//wait1Msec(500);
+     	    //moveForward(motorMEDIUM);
+     	    //wait1Msec(200);
+	  		motor[leftMotor] = -100;
+	 motor[rightMotor] = 50;
      	  }
 
 	  		stopMotor();
@@ -380,12 +394,12 @@ void grabObject()
 
 void armClose()
 {
-	moveArmMotor( 100, 100);  //Set motor to run 100 counts at power level 75.    //arguments are motor, time(miliseconds), speed(127 max)
+	moveArmMotor( 30, 70);  //Set motor to run 100 counts at power level 75.    //arguments are motor, time(miliseconds), speed(127 max)
 }
 
 void armOpen()
 {
-	moveArmMotor( 100, -100);  //Set motor to run 100 counts at power level 75.    //arguments are motor, time(miliseconds), speed(127 max)
+	moveArmMotor( 30, -70);  //Set motor to run 100 counts at power level 75.    //arguments are time(miliseconds), speed(127 max)
 }
 
 void moveArmMotor(int time, int speed)
@@ -442,10 +456,10 @@ void lineBackTracker()
     //If the left sensor sees dark...
   	else if(SensorValue(lineTrackerLeft) > threshold) {
 			 while (SensorValue(lineTrackerCenter) < threshold) {
-  		    turnLeftBack(motorFAST);
+  		    turnLeftBack(motorMEDIUM);
     	    wait1Msec(15);
-     	    moveBackward(motorMEDIUM);
-     	    wait1Msec(5);
+     	    moveBackward(motorSLOW);
+     	    wait1Msec(15);
 
     if ( ((leftLineSensor > threshold) && (centerLineSensor > threshold)) ||\
     		 ((rightLineSensor > threshold) && (centerLineSensor > threshold)) ||\
@@ -463,10 +477,10 @@ void lineBackTracker()
     //If the right sensor sees dark...
     else if(SensorValue(lineTrackerRight) > threshold) {
        while (SensorValue(lineTrackerCenter) < threshold) {
-    	 	  turnRightBack(motorFAST);
+    	 	  turnRightBack(motorMEDIUM);
      	    wait1Msec(15);
-     	    moveBackward(motorMEDIUM);
-     	    wait1Msec(5);
+     	    moveBackward(motorSLOW);
+     	    wait1Msec(15);
 
     if ( ((leftLineSensor > threshold) && (centerLineSensor > threshold)) ||\
     		 ((rightLineSensor > threshold) && (centerLineSensor > threshold)) ||\
@@ -489,7 +503,7 @@ void lineBackTracker()
 
 void turnRightBackJunction()
 {
-	turnRightBack(motorMEDIUM);
+	turnLeftBack(motorMEDIUM);
 	 wait1Msec(300);
 	 stopMotor();
 }
