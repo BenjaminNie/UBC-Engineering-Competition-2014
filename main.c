@@ -34,7 +34,7 @@ void turnLeftJunctionBack();
 
 task main()
 {
-	  int state = 40;
+	  int state = 5;
 
 	  //allow us to position robot down properly
 	  wait1Msec(2000);
@@ -83,8 +83,10 @@ task main()
 
 	  	  case(6):
 	  	  moveBackward(80);
-	  	  wait1Msec(300);
+	  	  wait1Msec(100);
+	  	  stopMotor();
 	  	  grabObject();
+	  	  wait1Msec(1000);
 	  	  state = 69;
 	  	  break;
 
