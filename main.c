@@ -394,12 +394,12 @@ void grabObject()
 
 void armClose()
 {
-	moveArmMotor( 30, 70);  //Set motor to run 100 counts at power level 75.    //arguments are motor, time(miliseconds), speed(127 max)
+	moveArmMotor( 120, 70);  //Set motor to run 100 counts at power level 75.    //arguments are motor, time(miliseconds), speed(127 max)
 }
 
 void armOpen()
 {
-	moveArmMotor( 30, -70);  //Set motor to run 100 counts at power level 75.    //arguments are time(miliseconds), speed(127 max)
+	moveArmMotor( 120, -70);  //Set motor to run 100 counts at power level 75.    //arguments are time(miliseconds), speed(127 max)
 }
 
 void moveArmMotor(int time, int speed)
